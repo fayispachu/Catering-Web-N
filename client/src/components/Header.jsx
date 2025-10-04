@@ -41,6 +41,7 @@ function Header() {
           <button className="bg-white text-[#d58936] font-semibold py-2 px-6 rounded-full transition-all duration-300">
             Book Now
           </button>
+          {/* 1 */}
         </div>
 
         {/* Mobile Menu Button */}
