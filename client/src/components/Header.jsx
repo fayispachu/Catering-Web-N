@@ -9,23 +9,24 @@ function Header() {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  // Handle scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Menu", path: "/beverage" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 overflow-hidden transition-colors duration-300 shadow-md ${
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 shadow-md ${
         scrolled ? "bg-white text-red-500" : "bg-red-500 text-white"
       }`}
     >
@@ -42,25 +43,24 @@ function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 text-lg font-medium">
-          {["home", "menu", "about", "contact"].map((link) => (
-            <a
-              key={link}
-              href={`#${link}`}
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
               className={`transition-colors ${
                 scrolled
                   ? "hover:text-amber-500 text-red-500"
                   : "hover:text-amber-300 text-white"
               }`}
             >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
-            </a>
+              {link.name}
+            </Link>
           ))}
         </nav>
 
         {/* Desktop Book Now */}
         <div className="hidden md:block">
-           <Link to={"/login"}>
-            {" "}
+          <Link to="/login">
             <button
               className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
                 scrolled
@@ -93,10 +93,10 @@ function Header() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {["home", "menu", "about", "contact"].map((link) => (
-            <a
-              key={link}
-              href={`#${link}`}
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
               onClick={toggleMenu}
               className={`text-lg transition-colors ${
                 scrolled
@@ -104,11 +104,10 @@ function Header() {
                   : "hover:text-amber-300 text-white"
               }`}
             >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
-            </a>
+              {link.name}
+            </Link>
           ))}
-          <Link to={"/login"}>
-            {" "}
+          <Link to="/login">
             <button
               className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
                 scrolled
