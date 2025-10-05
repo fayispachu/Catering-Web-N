@@ -4,6 +4,10 @@ import Beverages from "./pages/Beverages";
 import Header from "./components/Header";
 import CateringDashboard from "./pages/CateringDashboard";
 import Login from "./pages/Login";
+import UserProfile from "./pages/UserProfile";
+
+// Import your context
+import { UserProvider } from "./context/UserContext";
 
 function AppWrapper() {
   const location = useLocation();
@@ -20,6 +24,8 @@ function AppWrapper() {
         <Route path="/beverage" element={<Beverages />} />
         <Route path="/dashboard" element={<CateringDashboard />} />
         <Route path="/login" element={<Login />} />
+
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </>
   );
@@ -27,9 +33,11 @@ function AppWrapper() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppWrapper />
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <AppWrapper />
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 function Menu() {
   const [activeCategory, setActiveCategory] = useState("Starter");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Number of items per page
+  const itemsPerPage = 4;
 
   const categories = [
     "Starter",
@@ -18,44 +18,38 @@ function Menu() {
     Starter: [
       {
         name: "Paneer",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
+        desc: "Delicious paneer starter with spices.",
         price: "$90",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
       {
         name: "Sweet Potato",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
-        price: "$90",
+        desc: "Crispy sweet potato fries.",
+        price: "$80",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
       {
         name: "Sabudana Tikki",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
-        price: "$90",
+        desc: "Light and crispy tikki.",
+        price: "$70",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
       {
         name: "Pizza",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
-        price: "$90",
+        desc: "Cheesy delight with toppings.",
+        price: "$120",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
       {
         name: "Bacon",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
-        price: "$90",
-        img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
-      },
-      {
-        name: "Chicken",
-        desc: "Consectetur adipiscing elit sed dwso eiusmod tempor incididunt ut labore.",
-        price: "$90",
+        desc: "Crispy bacon strips.",
+        price: "$110",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
     ],
+    // Add other categories here...
   };
 
-  // Pagination logic
   const totalItems = menuItems[activeCategory]?.length || 0;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -64,13 +58,9 @@ function Menu() {
     startIndex + itemsPerPage
   );
 
-  const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  const handlePrev = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+  const handleNext = () =>
+    currentPage < totalPages && setCurrentPage(currentPage + 1);
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
@@ -78,12 +68,12 @@ function Menu() {
   };
 
   return (
-    <div className="py-16 px-6 md:px-20 bg-red-500 overflow-hidden text-white">
+    <div className="py-16 px-6 md:px-20 bg-red-500 text-white overflow-hidden relative">
       <h2 className="kaushan-script-regular text-4xl md:text-5xl text-center mb-10">
         Catering Menu
       </h2>
 
-      {/* Category Buttons */}
+      {/* Categories */}
       <div className="flex flex-wrap justify-center gap-4 mb-12">
         {categories.map((cat) => (
           <motion.button
@@ -113,7 +103,7 @@ function Menu() {
         {currentItems?.map((item, index) => (
           <motion.div
             key={index}
-            className="flex items-center justify-between gap-4 p-4 border-b border-dotted border-white hover:bg-red-600/70 transition-all cursor-pointer"
+            className="flex items-center justify-between gap-4 p-4 border-b border-dotted border-white transition-all"
             whileHover={{ scale: 1.02 }}
           >
             <div className="flex items-center gap-4">

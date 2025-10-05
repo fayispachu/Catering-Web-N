@@ -8,7 +8,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-red-600 text-white py-12">
+    <footer id="contact" className="bg-red-600 text-white py-12">
       <div className="max-w-7xl mx-auto px-6 md:px-16 flex flex-col md:flex-row justify-between items-center md:items-start gap-10 md:gap-0">
         {/* Branding */}
         <div className="flex-1 text-center md:text-left">

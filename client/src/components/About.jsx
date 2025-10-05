@@ -14,7 +14,10 @@ function About() {
   });
 
   return (
-    <div className="bg-white overflow-hidden text-red-700 min-h-screen py-20 px-6 md:px-16">
+    <div
+      id="about"
+      className="bg-white overflow-hidden text-red-700 min-h-screen py-20 px-6 md:px-16"
+    >
       {/* HEADING ON TOP */}
       <motion.h2
         className="kaushan-script-regular text-4xl md:text-5xl text-center mb-4"

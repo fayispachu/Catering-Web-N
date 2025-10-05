@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Menu", path: "/beverage" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: "About", path: "about" },
+    { name: "Service", path: "services" },
+    { name: "Menu", path: "menu" },
+
+    { name: "Gallery", path: "gallery" },
+    { name: "Reviews", path: "reviews" },
+    { name: "Contact", path: "contact" },
   ];
+
+  const handleScrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setMenuOpen(false);
+    }
+  };
 
   return (
     <header
@@ -43,34 +60,60 @@ function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 text-lg font-medium">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={`transition-colors ${
-                scrolled
-                  ? "hover:text-amber-500 text-red-500"
-                  : "hover:text-amber-300 text-white"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.path.startsWith("/") ? (
+              <Link key={link.name} to={link.path}>
+                {link.name}
+              </Link>
+            ) : (
+              <button
+                key={link.name}
+                onClick={() => handleScrollTo(link.path)}
+                className={`transition-colors ${
+                  scrolled
+                    ? "hover:text-amber-500 text-red-500"
+                    : "hover:text-amber-300 text-white"
+                }`}
+              >
+                {link.name}
+              </button>
+            )
+          )}
         </nav>
 
-        {/* Desktop Book Now */}
-        <div className="hidden md:block">
-          <Link to="/login">
-            <button
-              className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
-                scrolled
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-white text-red-500 hover:bg-gray-100"
-              }`}
+        {/* Right Side */}
+        <div className="hidden md:flex items-center space-x-4">
+          {user ? (
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => navigate("/profile")}
             >
-              Book Now
-            </button>
-          </Link>
+              {user.image ? (
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-full border-2 bg-white"
+                />
+              ) : (
+                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-red-500 font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <span className="font-semibold">{user.name}</span>
+            </div>
+          ) : (
+            <Link to="/login">
+              <button
+                className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+                  scrolled
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-white text-red-500 hover:bg-gray-100"
+                }`}
+              >
+                Login
+              </button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -93,31 +136,61 @@ function Header() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              onClick={toggleMenu}
-              className={`text-lg transition-colors ${
-                scrolled
-                  ? "hover:text-amber-500 text-red-500"
-                  : "hover:text-amber-300 text-white"
-              }`}
+          {navLinks.map((link) =>
+            link.path.startsWith("/") ? (
+              <Link key={link.name} to={link.path} onClick={toggleMenu}>
+                {link.name}
+              </Link>
+            ) : (
+              <button
+                key={link.name}
+                onClick={() => handleScrollTo(link.path)}
+                className={`text-lg transition-colors ${
+                  scrolled
+                    ? "hover:text-amber-500 text-red-500"
+                    : "hover:text-amber-300 text-white"
+                }`}
+              >
+                {link.name}
+              </button>
+            )
+          )}
+
+          {user ? (
+            <div
+              className="flex flex-col items-center space-y-2 cursor-pointer"
+              onClick={() => {
+                toggleMenu();
+                navigate("/profile");
+              }}
             >
-              {link.name}
+              {user.image ? (
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="w-14 h-14 rounded-full border-2 border-amber-400"
+                />
+              ) : (
+                <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white text-red-500 text-xl font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <span className="font-semibold">{user.name}</span>
+            </div>
+          ) : (
+            <Link to="/login">
+              <button
+                onClick={toggleMenu}
+                className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+                  scrolled
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-white text-red-500 hover:bg-gray-100"
+                }`}
+              >
+                Login
+              </button>
             </Link>
-          ))}
-          <Link to="/login">
-            <button
-              className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
-                scrolled
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-white text-red-500 hover:bg-gray-100"
-              }`}
-            >
-              Book Now
-            </button>
-          </Link>
+          )}
         </motion.nav>
       )}
     </header>

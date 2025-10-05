@@ -29,7 +29,7 @@ function Service() {
   ];
 
   return (
-    <div className="bg-gray-100 overflow-hidden py-20 px-6 md:px-16 text-red-600">
+    <div id="services" className="bg-gray-100 overflow-hidden py-20 px-6 md:px-16 text-red-600">
       <motion.h2
         className="kaushan-script-regular text-4xl md:text-5xl text-center mb-16"
         initial={{ opacity: 0, y: -30 }}

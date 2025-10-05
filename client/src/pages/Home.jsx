@@ -6,12 +6,14 @@ import Service from "../components/Service";
 import Menu from "../components/Menu";
 import Footer from "../components/Footer";
 import Offering from "../components/Offering";
+import Ratings from "../components/Ratings";
+import Gallery from "../components/Gallery";
 
 function Home() {
   return (
     <>
       {/* HERO SECTION */}
-      <div className="w-[100%] min-h-[100vh] bg-red-500 flex flex-col  md:flex-row items-center justify-center px-6 md:px-16 overflow-hidden pt-24">
+      <div className="w-[100%] min-h-[100vh] bg-red-500 flex flex-col md:flex-row items-center justify-center px-6 md:px-16 overflow-hidden pt-24">
         {/* LEFT SIDE — Text Section */}
         <motion.div
           className="w-full md:w-1/2 flex flex-col items-start justify-center text-left space-y-6"
@@ -86,6 +88,10 @@ function Home() {
       <Service />
       <Menu />
       <Offering />
+      <Ratings />
+
+      <Gallery />
+
       <Footer />
     </>
   );
