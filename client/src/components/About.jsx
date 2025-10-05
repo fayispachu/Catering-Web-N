@@ -14,7 +14,7 @@ function About() {
   });
 
   return (
-    <div className="bg-white text-red-700 min-h-screen py-20 px-6 md:px-16">
+    <div className="bg-white overflow-hidden text-red-700 min-h-screen py-20 px-6 md:px-16">
       {/* HEADING ON TOP */}
       <motion.h2
         className="kaushan-script-regular text-4xl md:text-5xl text-center mb-4"
@@ -70,12 +70,9 @@ function About() {
         >
           <p className="text-lg leading-relaxed mb-6 text-gray-800">
             Welcome to{" "}
-            <span className="font-semibold text-red-700">
-              Canopus Company
-            </span>
-            , where we take pride in offering premium catering services that
-            blend exquisite taste, elegant presentation, and top-tier
-            hospitality.
+            <span className="font-semibold text-red-700">Canopus Company</span>,
+            where we take pride in offering premium catering services that blend
+            exquisite taste, elegant presentation, and top-tier hospitality.
           </p>
           <p className="text-lg leading-relaxed mb-6 text-gray-800">
             We specialize in crafting memorable culinary experiences — from

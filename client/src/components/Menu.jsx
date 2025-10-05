@@ -78,7 +78,7 @@ function Menu() {
   };
 
   return (
-    <div className="py-16 px-6 md:px-20 bg-red-500 text-white">
+    <div className="py-16 px-6 md:px-20 bg-red-500 overflow-hidden text-white">
       <h2 className="kaushan-script-regular text-4xl md:text-5xl text-center mb-10">
         Catering Menu
       </h2>

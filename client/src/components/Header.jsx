@@ -24,7 +24,7 @@ function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 shadow-md ${
+      className={`fixed top-0 left-0 w-full z-50 overflow-hidden transition-colors duration-300 shadow-md ${
         scrolled ? "bg-white text-red-500" : "bg-red-500 text-white"
       }`}
     >

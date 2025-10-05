@@ -44,7 +44,7 @@ function Offering() {
   ];
 
   return (
-    <div className="bg-white py-20 px-6 md:px-16 text-gray-800">
+    <div className="bg-white overflow-hidden py-20 px-6 md:px-16 text-gray-800">
       {/* HEADING */}
       <motion.h2
         className="kaushan-script-regular text-4xl md:text-5xl text-center text-red-600 mb-10"
