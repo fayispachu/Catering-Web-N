@@ -11,8 +11,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row p-4 md:p-16 gap-6">
-      {/* Left Image */}
+    <div className="min-h-screen flex flex-col md:flex-row p-4 md:p-16 gap-6 bg-gray-50">
+      {/* Image */}
       <div className="md:flex-1 w-full rounded-md">
         <img
           src={loginImage}
@@ -21,16 +21,16 @@ function Login() {
         />
       </div>
 
-      {/* Right Form */}
-      <div className="flex-1 flex items-center justify-center bg-red-50 rounded-md">
-        <div className="w-full max-w-md p-8 bg-white rounded-3xl shadow-lg mx-2 md:mx-0">
+      {/* Login Form */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-md p-8 md:p-10 bg-white rounded-3xl shadow-lg">
           <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">
             Login
           </h2>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div className="flex flex-col">
-              <label className="mb-1 font-medium text-gray-700">Email</label>
+              <label className="mb-2 font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 value={email}
@@ -42,7 +42,7 @@ function Login() {
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-1 font-medium text-gray-700">Password</label>
+              <label className="mb-2 font-medium text-gray-700">Password</label>
               <input
                 type="password"
                 value={password}

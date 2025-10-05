@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,15 +59,18 @@ function Header() {
 
         {/* Desktop Book Now */}
         <div className="hidden md:block">
-          <button
-            className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
-              scrolled
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-white text-red-500 hover:bg-gray-100"
-            }`}
-          >
-            Book Now
-          </button>
+           <Link to={"/login"}>
+            {" "}
+            <button
+              className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+                scrolled
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "bg-white text-red-500 hover:bg-gray-100"
+              }`}
+            >
+              Book Now
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -103,15 +107,18 @@ function Header() {
               {link.charAt(0).toUpperCase() + link.slice(1)}
             </a>
           ))}
-          <button
-            className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
-              scrolled
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-white text-red-500 hover:bg-gray-100"
-            }`}
-          >
-            Book Now
-          </button>
+          <Link to={"/login"}>
+            {" "}
+            <button
+              className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+                scrolled
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "bg-white text-red-500 hover:bg-gray-100"
+              }`}
+            >
+              Book Now
+            </button>
+          </Link>
         </motion.nav>
       )}
     </header>
