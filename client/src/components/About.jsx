@@ -1,126 +1,94 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { UtensilsCrossed, Users, Star } from "lucide-react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
+import tableware from "../assets/tableware.jpg";
+import staff from "../assets/staff.webp";
+import food from "../assets/food.webp";
+
 function About() {
-  // Hook to detect if stats section is in viewport
   const [ref, inView] = useInView({
-    triggerOnce: true, // animate only once
-    threshold: 0.3, // 30% of the element visible
+    triggerOnce: true,
+    threshold: 0.3,
   });
 
   return (
-    <div className="bg-neutral-100 min-h-screen py-20 px-6 md:px-16">
-      {/* Heading */}
+    <div className="bg-white text-red-700 min-h-screen py-20 px-6 md:px-16">
+      {/* HEADING ON TOP */}
       <motion.h2
-        className="kaushan-script-regular text-4xl md:text-5xl text-center text-yellow-800 mb-10"
+        className="kaushan-script-regular text-4xl md:text-5xl text-center mb-4"
         initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        About Our Services
+        About Us
       </motion.h2>
 
-      {/* Service Grid */}
-      <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        {/* Tableware Service */}
-        <motion.div
-          className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="flex justify-center mb-4">
-            <UtensilsCrossed size={50} className="text-[#d58936]" />
-          </div>
-          <h3 className="text-2xl font-semibold mb-3 text-gray-800">
-            Premium Tableware
-          </h3>
-          <p className="text-gray-600">
-            We provide elegant <strong>plates</strong>, <strong>spoons</strong>,{" "}
-            <strong>bowls</strong> — all premium quality to make your event
-            truly special.
-          </p>
-        </motion.div>
-
-        {/* Catering Staff */}
-        <motion.div
-          className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="flex justify-center mb-4">
-            <Users size={50} className="text-[#d58936]" />
-          </div>
-          <h3 className="text-2xl font-semibold mb-3 text-gray-800">
-            Professional Catering Staff
-          </h3>
-          <p className="text-gray-600">
-            Our well-trained <strong>catering boys and girls</strong> deliver
-            top-class service with a smile, ensuring your guests feel cared for.
-          </p>
-        </motion.div>
-
-        {/* Food Quality */}
-        <motion.div
-          className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div className="flex justify-center mb-4">
-            <Star size={50} className="text-[#d58936]" />
-          </div>
-          <h3 className="text-2xl font-semibold mb-3 text-gray-800">
-            Premium Food Experience
-          </h3>
-          <p className="text-gray-600">
-            From traditional to modern cuisines, we serve{" "}
-            <strong>premium dishes</strong> crafted with love, hygiene, and
-            authentic taste.
-          </p>
-        </motion.div>
-      </div>
-
-      {/* STATS CARDS SECTION */}
-      <div
-        ref={ref} // attach the ref here
-        className="w-full bg-neutral-100 py-16 flex flex-col md:flex-row items-center justify-around px-6 md:px-16 space-y-6 md:space-y-0 md:space-x-6"
+      {/* QUOTE BELOW HEADING */}
+      <motion.p
+        className="text-center text-lg italic mb-12 tracking-wide text-red-500"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
       >
-        {/* Card 2 */}
+        “We’re the ones who make premium catering feel truly unforgettable.”
+      </motion.p>
+
+      {/* CONTENT SECTION (IMAGES + TEXT) */}
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
+        {/* LEFT SIDE IMAGES */}
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center w-full md:w-1/4"
+          className="grid grid-cols-2 gap-4 w-full lg:w-1/2"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl font-bold text-[#d58936]">
-            {inView && <CountUp end={50} duration={2} />}+
-          </h2>
-          <p className="text-gray-600 mt-2">Members</p>
+          <img
+            src={tableware}
+            alt="Tableware"
+            className="w-full h-64 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform duration-500 col-span-2"
+          />
+          <img
+            src={staff}
+            alt="Staff"
+            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform duration-500"
+          />
+          <img
+            src={food}
+            alt="Food"
+            className="w-full h-48 object-cover rounded-2xl shadow-md hover:scale-105 transition-transform duration-500"
+          />
         </motion.div>
 
-        {/* Card 3 */}
+        {/* RIGHT SIDE TEXT */}
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center w-full md:w-1/4"
+          className="w-full lg:w-1/2 flex flex-col justify-center"
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl font-bold text-[#d58936]">
-            {inView && <CountUp end={300} duration={2} />}+
-          </h2>
-          <p className="text-gray-600 mt-2">Happy Customers</p>
-        </motion.div>
-
-        {/* Card 4 */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center w-full md:w-1/4"
-        >
-          <h2 className="text-4xl font-bold text-[#d58936]">
-            {inView && <CountUp end={80} duration={2} />}+
-          </h2>
-          <p className="text-gray-600 mt-2">Events Completed</p>
+          <p className="text-lg leading-relaxed mb-6 text-gray-800">
+            Welcome to{" "}
+            <span className="font-semibold text-red-700">
+              Canopus Company
+            </span>
+            , where we take pride in offering premium catering services that
+            blend exquisite taste, elegant presentation, and top-tier
+            hospitality.
+          </p>
+          <p className="text-lg leading-relaxed mb-6 text-gray-800">
+            We specialize in crafting memorable culinary experiences — from
+            beverages and buffet spreads to grand celebrations and corporate
+            events. Every dish we prepare reflects our passion for perfection
+            and dedication to quality.
+          </p>
+          <p className="text-lg leading-relaxed text-gray-800">
+            Our mission is simple: to bring a touch of luxury and authenticity
+            to your special occasions. Whether it’s an intimate gathering or a
+            lavish event, we ensure every guest enjoys an unforgettable dining
+            experience.
+          </p>
         </motion.div>
       </div>
     </div>

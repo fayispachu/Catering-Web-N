@@ -1,47 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react"; // modern icons
+import { Menu, X } from "lucide-react";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  // Handle scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="bg-[#d58936] text-white shadow-md fixed top-0 left-0 w-full z-50">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 shadow-md ${
+        scrolled ? "bg-white text-red-500" : "bg-red-500 text-white"
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-10">
-        {/* Logo / Brand */}
+        {/* Logo */}
         <motion.h1
           className="kaushan-script-regular text-2xl md:text-3xl tracking-wide"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Nisam Catering
+          Canopus Company
         </motion.h1>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 text-lg font-medium">
-          <a href="#home" className="hover:text-amber-300 transition-colors">
-            Home
-          </a>
-          <a href="#menu" className="hover:text-amber-300 transition-colors">
-            Menu
-          </a>
-          <a href="#about" className="hover:text-amber-300 transition-colors">
-            About
-          </a>
-          <a href="#contact" className="hover:text-amber-300 transition-colors">
-            Contact
-          </a>
+          {["home", "menu", "about", "contact"].map((link) => (
+            <a
+              key={link}
+              href={`#${link}`}
+              className={`transition-colors ${
+                scrolled
+                  ? "hover:text-amber-500 text-red-500"
+                  : "hover:text-amber-300 text-white"
+              }`}
+            >
+              {link.charAt(0).toUpperCase() + link.slice(1)}
+            </a>
+          ))}
         </nav>
 
-        {/* Book Now Button (Desktop) */}
+        {/* Desktop Book Now */}
         <div className="hidden md:block">
-          <button className="bg-white text-[#d58936] font-semibold py-2 px-6 rounded-full transition-all duration-300">
+          <button
+            className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+              scrolled
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : "bg-white text-red-500 hover:bg-gray-100"
+            }`}
+          >
             Book Now
           </button>
-          {/* 1 */}
         </div>
 
         {/* Mobile Menu Button */}
@@ -57,40 +82,34 @@ function Header() {
       {/* Mobile Menu */}
       {menuOpen && (
         <motion.nav
-          className="md:hidden bg-yellow-900 flex flex-col items-center space-y-6 py-6"
+          className={`md:hidden flex flex-col items-center space-y-6 py-6 transition-colors duration-300 ${
+            scrolled ? "bg-white text-red-500" : "bg-red-500 text-white"
+          }`}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <a
-            href="#home"
-            onClick={toggleMenu}
-            className="hover:text-amber-300 text-lg"
+          {["home", "menu", "about", "contact"].map((link) => (
+            <a
+              key={link}
+              href={`#${link}`}
+              onClick={toggleMenu}
+              className={`text-lg transition-colors ${
+                scrolled
+                  ? "hover:text-amber-500 text-red-500"
+                  : "hover:text-amber-300 text-white"
+              }`}
+            >
+              {link.charAt(0).toUpperCase() + link.slice(1)}
+            </a>
+          ))}
+          <button
+            className={`font-semibold py-2 px-6 rounded-full transition-all duration-300 ${
+              scrolled
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : "bg-white text-red-500 hover:bg-gray-100"
+            }`}
           >
-            Home
-          </a>
-          <a
-            href="#menu"
-            onClick={toggleMenu}
-            className="hover:text-amber-300 text-lg"
-          >
-            Menu
-          </a>
-          <a
-            href="#about"
-            onClick={toggleMenu}
-            className="hover:text-amber-300 text-lg"
-          >
-            About
-          </a>
-          <a
-            href="#contact"
-            onClick={toggleMenu}
-            className="hover:text-amber-300 text-lg"
-          >
-            Contact
-          </a>
-          <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-full transition-all duration-300">
             Book Now
           </button>
         </motion.nav>

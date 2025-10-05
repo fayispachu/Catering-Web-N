@@ -52,9 +52,7 @@ function Menu() {
         price: "$90",
         img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=200&q=80",
       },
-      // add more items...
     ],
-    // Add other categories...
   };
 
   // Pagination logic
@@ -74,15 +72,14 @@ function Menu() {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Reset page when changing category
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
     setCurrentPage(1);
   };
 
   return (
-    <div className="py-16 px-6 md:px-20 bg-neutral-50">
-      <h2 className="kaushan-script-regular text-4xl md:text-5xl text-yellow-800 text-center mb-10">
+    <div className="py-16 px-6 md:px-20 bg-red-500 text-white">
+      <h2 className="kaushan-script-regular text-4xl md:text-5xl text-center mb-10">
         Catering Menu
       </h2>
 
@@ -96,8 +93,8 @@ function Menu() {
             whileTap={{ scale: 0.95 }}
             className={`px-6 py-2 rounded-full font-semibold border-2 transition-all duration-200 ${
               activeCategory === cat
-                ? "bg-yellow-800 text-white border-yellow-800"
-                : "border-yellow-800 text-[#d58936] hover:bg-yellow-800 hover:text-white"
+                ? "bg-white text-red-500 border-white"
+                : "border-white text-white hover:bg-white hover:text-red-500"
             }`}
           >
             {cat}
@@ -107,7 +104,7 @@ function Menu() {
 
       {/* Menu Items */}
       <motion.div
-        key={activeCategory + currentPage} // animate on page change too
+        key={activeCategory + currentPage}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -116,7 +113,7 @@ function Menu() {
         {currentItems?.map((item, index) => (
           <motion.div
             key={index}
-            className="flex items-center justify-between gap-4 p-4 border-b border-dotted border-gray-300 hover:bg-gray-100 transition-all cursor-pointer"
+            className="flex items-center justify-between gap-4 p-4 border-b border-dotted border-white hover:bg-red-600/70 transition-all cursor-pointer"
             whileHover={{ scale: 1.02 }}
           >
             <div className="flex items-center gap-4">
@@ -126,13 +123,11 @@ function Menu() {
                 className="w-16 h-16 rounded-full object-cover"
               />
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <p className="text-white/90 text-sm">{item.desc}</p>
               </div>
             </div>
-            <span className="text-[#d58936] font-bold">{item.price}</span>
+            <span className="text-white font-bold">{item.price}</span>
           </motion.div>
         ))}
       </motion.div>
@@ -143,7 +138,7 @@ function Menu() {
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
-            className="px-4 py-2 rounded bg-[#d58936] text-white disabled:opacity-50 hover:bg-[#db9142] transition-colors"
+            className="px-4 py-2 rounded bg-white text-red-500 disabled:opacity-50 hover:bg-white/80 transition-colors"
           >
             Prev
           </button>
@@ -153,7 +148,7 @@ function Menu() {
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded bg-[#d58936] text-white disabled:opacity-50 hover:bg-[#db9142] transition-colors"
+            className="px-4 py-2 rounded bg-white text-red-500 disabled:opacity-50 hover:bg-white/80 transition-colors"
           >
             Next
           </button>

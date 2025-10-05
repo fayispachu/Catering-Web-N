@@ -6,48 +6,48 @@ import {
   Star,
   Coffee,
   Gift,
-  ArrowBigRight,
   ArrowRight,
 } from "lucide-react";
 
 function Offering() {
   const offerings = [
     {
-      icon: <UtensilsCrossed size={50} className="text-[#d58936]" />,
+      icon: <UtensilsCrossed size={50} className="text-red-600" />,
       title: "Premium Tableware",
-      desc: "Elegant plates, spoons, bowls — all premium quality.",
+      desc: "Elegant plates, spoons, and bowls — crafted for luxury service.",
       link: "/tableware",
     },
     {
-      icon: <Users size={50} className="text-[#d58936]" />,
+      icon: <Users size={50} className="text-red-600" />,
       title: "Catering Staff",
-      desc: "Well-trained catering boys and girls providing excellent service.",
+      desc: "Polite and professional staff ensuring smooth service.",
       link: "/staff",
     },
     {
-      icon: <Star size={50} className="text-[#d58936]" />,
+      icon: <Star size={50} className="text-red-600" />,
       title: "Delicious Foods",
-      desc: "Traditional and modern dishes crafted with hygiene and love.",
+      desc: "A perfect blend of traditional and modern flavors.",
       link: "/foods",
     },
     {
-      icon: <Coffee size={50} className="text-[#d58936]" />,
+      icon: <Coffee size={50} className="text-red-600" />,
       title: "Beverages",
-      desc: "Premium drinks, teas, coffees, and juices for your guests.",
+      desc: "Refreshing drinks, mocktails, and premium coffee service.",
       link: "/beverage",
     },
     {
-      icon: <Gift size={50} className="text-[#d58936]" />,
+      icon: <Gift size={50} className="text-red-600" />,
       title: "Event Essentials",
-      desc: "Everything you need for a perfect event — luxury setup and service.",
+      desc: "Complete setup for luxury and memorable experiences.",
       link: "/essentials",
     },
   ];
 
   return (
-    <div className="py-20 px-6 md:px-16">
+    <div className="bg-white py-20 px-6 md:px-16 text-gray-800">
+      {/* HEADING */}
       <motion.h2
-        className="kaushan-script-regular text-4xl md:text-5xl text-center text-[#d58936] mb-10"
+        className="kaushan-script-regular text-4xl md:text-5xl text-center text-red-600 mb-10"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -55,46 +55,32 @@ function Offering() {
         What We Offer
       </motion.h2>
 
-      <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-10 max-w-7xl mx-auto h-auto">
+      {/* OFFERING GRID */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
         {offerings.map((item, index) => (
           <motion.div
             key={index}
-            className="bg-white p-6 rounded-2xl shadow-lg text-center cursor-pointer flex flex-col justify-between"
+            className="bg-red-50 p-6 rounded-2xl shadow-md hover:shadow-xl text-center flex flex-col justify-between transition-all duration-300"
             initial={{ opacity: 0, y: 30 }}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0px 15px 25px rgba(0,0,0,0.2)",
-              transition: { duration: 0.2 },
-            }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.2 }}
+            transition={{ duration: 0.8, delay: index * 0.15 }}
+            whileHover={{ scale: 1.05 }}
           >
             <div>
-              <motion.div
-                className="flex justify-center mb-4"
-                whileHover={{ color: "#d58936", transition: { duration: 0.2 } }}
-              >
-                {item.icon}
-              </motion.div>
-              <motion.h3
-                className="text-xl font-semibold mb-2 text-gray-800"
-                whileHover={{ color: "#d58936", transition: { duration: 0.2 } }}
-              >
+              <div className="flex justify-center mb-4">{item.icon}</div>
+              <h3 className="text-lg font-semibold mb-2 text-red-600">
                 {item.title}
-              </motion.h3>
-              <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
+              </h3>
+              <p className="text-gray-600 text-sm">{item.desc}</p>
             </div>
 
             {/* Button */}
             <motion.a
               href={item.link}
-              className="bg-[#d58936] text-white font-semibold py-2 px-4 rounded-full mt-4 inline-block"
-              whileHover={{ scale: 1.05, backgroundColor: "#d58936" }}
-              transition={{ duration: 0.2 }}
+              className="bg-red-600 text-white font-medium py-2 px-4 rounded-full mt-6 inline-flex items-center justify-center gap-2 hover:bg-red-700 transition-all duration-200"
+              whileHover={{ scale: 1.08 }}
             >
-              <span className="flex flex-row items-center justify-center">
-                Explore <ArrowRight />
-              </span>
+              Explore <ArrowRight size={18} />
             </motion.a>
           </motion.div>
         ))}
