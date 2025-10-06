@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import About from "../components/About";
-import homeimage from "../assets/homeimage.jpg";
 import Service from "../components/Service";
 import Menu from "../components/Menu";
-import Footer from "../components/Footer";
 import Offering from "../components/Offering";
 import Ratings from "../components/Ratings";
 import Gallery from "../components/Gallery";
+import Footer from "../components/Footer";
+import BookingForm from "../components/BookingForm"; // ✅ import BookingForm
+import homeimage from "../assets/homeimage.jpg";
 
 function Home() {
+  const [showBooking, setShowBooking] = useState(false); // popup toggle
+
   return (
     <>
       {/* HERO SECTION */}
@@ -35,6 +38,7 @@ function Home() {
           <motion.button
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => setShowBooking(true)} // ✅ show popup
             className="bg-white text-red-600 font-semibold py-3 px-8 rounded-full shadow-md hover:bg-gray-100 transition-all duration-300"
           >
             Book Now
@@ -48,28 +52,24 @@ function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
         >
-          {/* Center Stack */}
+          {/* Images here (as in your code) */}
           <div className="flex flex-col items-center">
             <img
               src={homeimage}
               alt="Catering Top"
               className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl shadow-lg border-4 border-white mb-4 hover:scale-105 transition-transform duration-500"
             />
-
             <img
               src={homeimage}
               alt="Catering Center"
               className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-2xl shadow-2xl z-10 border-4 border-white mb-4 hover:scale-105 transition-transform duration-500"
             />
-
             <img
               src={homeimage}
               alt="Catering Bottom"
               className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl shadow-lg border-4 border-white hover:scale-105 transition-transform duration-500"
             />
           </div>
-
-          {/* Side Images */}
           <img
             src={homeimage}
             alt="Catering Left"
@@ -89,10 +89,11 @@ function Home() {
       <Menu />
       <Offering />
       <Ratings />
-
       <Gallery />
-
       <Footer />
+
+      {/* Booking Form Popup */}
+      {showBooking && <BookingForm onClose={() => setShowBooking(false)} />}
     </>
   );
 }

@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./database/DBConnection.js";
 import UserRouter from "./routes/User.route.js";
+import GalleryRouter from "./routes/Gallery.route.js";
+import MenuRouter from "./routes/Menu.route.js";
 
 dotenv.config();
 
@@ -17,8 +19,10 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/user", UserRouter);
+app.use("/api/menu", MenuRouter);
 
-// Routes
+app.use("/api/gallery", GalleryRouter);
+
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });

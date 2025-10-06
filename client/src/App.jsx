@@ -1,31 +1,61 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import Home from "./pages/Home";
-import Beverages from "./pages/Beverages";
+import OfferingList from "./pages/OfferingList";
 import Header from "./components/Header";
-import CateringDashboard from "./pages/CateringDashboard";
 import Login from "./pages/Login";
 import UserProfile from "./pages/UserProfile";
 
-// Import your context
+// Context providers
 import { UserProvider } from "./context/UserContext";
+import { BookingProvider } from "./context/BookingContext";
+import FloatingBooking from "./components/FloatingBooking";
+import { MenuProvider } from "./context/MenuContext";
+import { GalleryProvider } from "./context/GalleryContext";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function AppWrapper() {
   const location = useLocation();
 
-  // Hide header on login and dashboard pages
-  const hideHeader = ["/login", "/dashboard"].includes(location.pathname);
+  // Hide header and floating booking for specific routes
+  const hideitem = ["/login", "/dashboard", "/admin/dashboard"].includes(
+    location.pathname
+  );
+
+  const isAdminAuthenticated =
+    localStorage.getItem("adminAuthenticated") === "true";
 
   return (
     <>
-      {!hideHeader && <Header />}
+      {!hideitem && <Header />}
+      {!hideitem && <FloatingBooking />}
 
       <Routes>
+        {/* User Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/beverage" element={<Beverages />} />
-        <Route path="/dashboard" element={<CateringDashboard />} />
+        <Route path="/offerings" element={<OfferingList />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/profile" element={<UserProfile />} />
+
+        {/* ✅ Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            isAdminAuthenticated ? (
+              <AdminDashboard />
+            ) : (
+              <Navigate to="/admin/login" replace />
+            )
+          }
+        />
+
+        {/* Catch-all (optional) */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
@@ -34,9 +64,15 @@ function AppWrapper() {
 function App() {
   return (
     <UserProvider>
-      <BrowserRouter>
-        <AppWrapper />
-      </BrowserRouter>
+      <BookingProvider>
+        <MenuProvider>
+          <GalleryProvider>
+            <BrowserRouter>
+              <AppWrapper />
+            </BrowserRouter>
+          </GalleryProvider>
+        </MenuProvider>
+      </BookingProvider>
     </UserProvider>
   );
 }

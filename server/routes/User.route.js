@@ -5,10 +5,11 @@ import {
   getUser,
   getAllUsers,
   updateUser,
-  addItemToCart,
-  removeItemFromCart,
+
   addBooking,
   updateNotifications,
+  updateBooking,
+  deleteBooking,
 } from "../controller/User.controller.js";
 
 const UserRouter = express.Router();
@@ -25,11 +26,9 @@ UserRouter.get("/users", getAllUsers);
 UserRouter.put("/profile/:id", updateUser);
 UserRouter.put("/profile/:id/notifications", updateNotifications);
 
-// Cart / Saved Items
-UserRouter.post("/profile/:id/cart/add", addItemToCart);
-UserRouter.post("/profile/:id/cart/remove", removeItemFromCart);
-
-// Bookings
 UserRouter.post("/profile/:id/bookings", addBooking);
+UserRouter.put("/profile/:id/bookings/:bookingId", updateBooking);
 
+// Delete a booking
+UserRouter.delete("/profile/:id/bookings/:bookingId", deleteBooking);
 export default UserRouter;

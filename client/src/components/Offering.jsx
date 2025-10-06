@@ -15,31 +15,31 @@ function Offering() {
       icon: <UtensilsCrossed size={50} className="text-red-600" />,
       title: "Premium Tableware",
       desc: "Elegant plates, spoons, and bowls — crafted for luxury service.",
-      link: "/tableware",
+      link: "/offerings",
     },
     {
       icon: <Users size={50} className="text-red-600" />,
       title: "Catering Staff",
       desc: "Polite and professional staff ensuring smooth service.",
-      link: "/staff",
+      link: "/offerings",
     },
     {
       icon: <Star size={50} className="text-red-600" />,
       title: "Delicious Foods",
       desc: "A perfect blend of traditional and modern flavors.",
-      link: "/foods",
+      link: "/offerings",
     },
     {
       icon: <Coffee size={50} className="text-red-600" />,
       title: "Beverages",
       desc: "Refreshing drinks, mocktails, and premium coffee service.",
-      link: "/beverage",
+      link: "/offerings",
     },
     {
       icon: <Gift size={50} className="text-red-600" />,
       title: "Event Essentials",
       desc: "Complete setup for luxury and memorable experiences.",
-      link: "/essentials",
+      link: "/offerings",
     },
   ];
 

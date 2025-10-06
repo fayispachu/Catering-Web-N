@@ -1,7 +1,7 @@
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 
-// ✅ REGISTER USER
+// REGISTER USER
 export const createUser = async (req, res) => {
   try {
     const { name, email, password, role, image, notifications } = req.body;
@@ -38,11 +38,11 @@ export const createUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
-        savedItems: newUser.savedItems,
         bookings: newUser.bookings,
         notifications: newUser.notifications,
       },
     });
+    console.log(newUser, "registered");
   } catch (err) {
     console.error("Registration Error:", err);
     res.status(500).json({ message: err.message });
@@ -73,7 +73,6 @@ export const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        savedItems: user.savedItems,
         bookings: user.bookings,
         notifications: user.notifications,
       },
@@ -120,61 +119,62 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// ✅ ADD ITEM TO SAVED ITEMS / CART
-export const addItemToCart = async (req, res) => {
-  try {
-    const { name, desc, image, quantity } = req.body;
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const existingItemIndex = user.savedItems.findIndex(
-      (item) => item.name === name
-    );
-
-    // If item exists, increase quantity
-
-    user.savedItems.push({ name, desc, image });
-
-    await user.save();
-    res
-      .status(200)
-      .json({ message: "Item added to cart", savedItems: user.savedItems });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-// ✅ REMOVE ITEM FROM CART
-export const removeItemFromCart = async (req, res) => {
-  try {
-    const { itemName } = req.body;
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    user.savedItems = user.savedItems.filter((item) => item.name !== itemName);
-    await user.save();
-
-    res
-      .status(200)
-      .json({ message: "Item removed", savedItems: user.savedItems });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
 // ✅ ADD BOOKING
 export const addBooking = async (req, res) => {
+  const { userId } = req.params;
+  const { event, place, phone, date, guests, items } = req.body;
+
   try {
-    const { event, date, guests, items } = req.body;
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.bookings.push({ event, date, guests, items: items || [] });
+    user.bookings.push({ event, place, phone, date, guests, items });
+    console.log(user.bookings, "booking");
+    console.log(user);
+
     await user.save();
 
-    res.status(200).json({ message: "Booking added", bookings: user.bookings });
+    res.status(201).json({ message: "Booking added", bookings: user.bookings });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const updateBooking = async (req, res) => {
+  const { id, bookingId } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const booking = user.bookings.id(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+
+    Object.assign(booking, req.body); // update fields
+    await user.save();
+
+    res.json({ bookings: user.bookings });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const deleteBooking = async (req, res) => {
+  const { userId, bookingId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const booking = user.bookings.id(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+
+    booking.remove();
+    await user.save();
+
+    res.status(200).json({ message: "Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
 

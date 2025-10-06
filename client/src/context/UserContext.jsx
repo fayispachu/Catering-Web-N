@@ -4,136 +4,63 @@ import AxiosInstance from "../lib/axios";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // null when not logged in
-  const [savedItems, setSavedItems] = useState([]);
-  const [bookings, setBookings] = useState([]);
+  const [user, setUser] = useState(null);
   const [notifications, setNotifications] = useState({
     email: true,
     whatsapp: true,
   });
 
-  // Load user from localStorage on mount
+  // Load user from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      setSavedItems(parsedUser.savedItems || []);
-      setBookings(parsedUser.bookings || []);
       setNotifications(
         parsedUser.notifications || { email: true, whatsapp: true }
       );
-      fetchUserData(parsedUser._id);
     }
   }, []);
 
-  // Fetch latest user data from backend
-  const fetchUserData = async (userId) => {
-    try {
-      const res = await AxiosInstance.get(`/user/profile/${userId}`);
-      if (res.data) {
-        setUser(res.data);
-        console.log(res.data, "fetched user data");
-
-        setSavedItems(res.data.savedItems || []);
-        setBookings(res.data.bookings || []);
-        setNotifications(
-          res.data.notifications || { email: true, whatsapp: true }
-        );
-      }
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-    }
-  };
-
-  // Register user
   const registerUser = async (userData) => {
     try {
       const res = await AxiosInstance.post("/user/register", userData);
-      const newUser = res.data.user;
-      setUser(newUser);
-      setSavedItems(newUser.savedItems || []);
-      setBookings(newUser.bookings || []);
-      setNotifications(
-        newUser.notifications || { email: true, whatsapp: true }
-      );
-      localStorage.setItem("user", JSON.stringify(newUser));
-      return newUser; // caller can handle navigation
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      return res.data.user;
     } catch (err) {
-      console.error("Registration failed:", err.response?.data || err);
+      console.error(err.response?.data || err);
       throw err;
     }
   };
 
-  // Login user
   const loginUser = async (email, password) => {
     try {
       const res = await AxiosInstance.post("/user/login", { email, password });
-      if (res.status === 200) {
-        const loggedInUser = res.data.user;
-        setUser(loggedInUser);
-        setSavedItems(loggedInUser.savedItems || []);
-        setBookings(loggedInUser.bookings || []);
-        setNotifications(
-          loggedInUser.notifications || { email: true, whatsapp: true }
-        );
-        localStorage.setItem("user", JSON.stringify(loggedInUser));
-        return loggedInUser; // caller can navigate
-      }
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      console.log("User logged in:", res.data.user);
+
+      return res.data.user;
     } catch (err) {
-      console.error("Login failed:", err.response?.data || err);
+      console.error(err.response?.data || err);
       throw err;
     }
   };
 
-  // Toggle attendance locally (can add backend patch if needed)
-  const toggleAttendance = () => {
-    setUser((prev) => ({ ...prev, attendance: !prev.attendance }));
-  };
-
-  // Add item to cart
-  const addToCart = async (item) => {
+  const updateUser = async (updates) => {
     if (!user) return;
     try {
-      const res = await AxiosInstance.post(
-        `/user/profile/${user._id}/cart/add`,
-        item
-      );
-      setSavedItems(res.data.savedItems);
+      const res = await AxiosInstance.put(`/user/profile/${user._id}`, updates);
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      return res.data.user;
     } catch (err) {
-      console.error("Add to cart failed:", err);
+      console.error(err);
     }
   };
 
-  // Remove item from cart
-  const removeFromCart = async (itemName) => {
-    if (!user) return;
-    try {
-      const res = await AxiosInstance.post(
-        `/user/profile/${user._id}/cart/remove`,
-        { itemName }
-      );
-      setSavedItems(res.data.savedItems);
-    } catch (err) {
-      console.error("Remove from cart failed:", err);
-    }
-  };
-
-  // Add a booking
-  const addBooking = async (bookingData) => {
-    if (!user) return;
-    try {
-      const res = await AxiosInstance.post(
-        `/user/profile/${user._id}/bookings`,
-        bookingData
-      );
-      setBookings(res.data.bookings);
-    } catch (err) {
-      console.error("Add booking failed:", err);
-    }
-  };
-
-  // Update notification preferences
   const updateNotifications = async (prefs) => {
     if (!user) return;
     try {
@@ -143,15 +70,19 @@ export const UserProvider = ({ children }) => {
       );
       setNotifications(res.data.notifications);
     } catch (err) {
-      console.error("Update notifications failed:", err);
+      console.error(err);
     }
   };
 
-  // Logout
+  const toggleAttendance = () => {
+    if (!user) return;
+    const updated = { ...user, attendance: !user.attendance };
+    setUser(updated);
+    localStorage.setItem("user", JSON.stringify(updated));
+  };
+
   const logoutUser = () => {
     setUser(null);
-    setSavedItems([]);
-    setBookings([]);
     setNotifications({ email: true, whatsapp: true });
     localStorage.removeItem("user");
   };
@@ -160,17 +91,13 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        savedItems,
-        bookings,
         notifications,
         setUser,
         registerUser,
         loginUser,
-        toggleAttendance,
-        addToCart,
-        removeFromCart,
-        addBooking,
+        updateUser,
         updateNotifications,
+        toggleAttendance,
         logoutUser,
       }}
     >

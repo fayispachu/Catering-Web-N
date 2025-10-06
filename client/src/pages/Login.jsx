@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // <- import
+import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/loginimage.jpg";
 import UserContext from "../context/UserContext";
 
@@ -9,10 +9,11 @@ function Login() {
     name: "",
     email: "",
     password: "",
+    role: "customer",
   });
-  const { registerUser, loginUser } = useContext(UserContext);
 
-  const navigate = useNavigate(); // <- initialize
+  const { registerUser, loginUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,19 +22,16 @@ function Login() {
     e.preventDefault();
     if (isLogin) {
       const success = await loginUser(formData.email, formData.password);
-      if (success) {
-        navigate("/"); // <- navigate to home after login
-      }
+      if (success) navigate("/");
     } else {
       const success = await registerUser(formData);
-      if (success) {
-        navigate("/"); // <- navigate to home after registration
-      }
+      if (success) navigate("/");
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row p-4 md:p-16 gap-6 bg-gray-50">
+      {/* Left Image Section */}
       <div className="md:flex-1 w-full rounded-md">
         <img
           src={loginImage}
@@ -42,6 +40,7 @@ function Login() {
         />
       </div>
 
+      {/* Right Form Section */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md p-8 md:p-10">
           <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">
@@ -49,6 +48,7 @@ function Login() {
           </h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            {/* Name Field (only for register) */}
             {!isLogin && (
               <div className="flex flex-col">
                 <label className="mb-2 font-medium text-gray-700">Name</label>
@@ -64,6 +64,7 @@ function Login() {
               </div>
             )}
 
+            {/* Email */}
             <div className="flex flex-col">
               <label className="mb-2 font-medium text-gray-700">Email</label>
               <input
@@ -77,6 +78,7 @@ function Login() {
               />
             </div>
 
+            {/* Password */}
             <div className="flex flex-col">
               <label className="mb-2 font-medium text-gray-700">Password</label>
               <input
@@ -90,6 +92,24 @@ function Login() {
               />
             </div>
 
+            {/* Role Selector — show only when Registering */}
+            {!isLogin && (
+              <div className="flex flex-col">
+                <label className="mb-2 font-medium text-gray-700">Role</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+                >
+                  <option value="customer">Customer</option>
+                  <option value="staff">Staff</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            )}
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="mt-4 w-full bg-red-600 text-white py-3 rounded-xl hover:bg-red-700 transition font-semibold"
@@ -97,6 +117,7 @@ function Login() {
               {isLogin ? "Login" : "Register"}
             </button>
 
+            {/* Toggle between login/register */}
             <p className="mt-4 text-sm text-center text-gray-500">
               {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
               <span

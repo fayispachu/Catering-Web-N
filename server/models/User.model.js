@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["Admin", "Staff"],
-      default: "Staff",
+      enum: ["admin", "staff", "customer"],
+      default: "customer",
     },
     attendance: {
       type: Boolean,
@@ -33,21 +33,14 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
-    // 🛒 Saved Items / Cart
-    savedItems: [
-      {
-        name: { type: String, required: true },
-        desc: { type: String },
-        image: { type: String },
-      },
-    ],
-
-    // 📅 Bookings / Events
+    // Bookings / Events
     bookings: [
       {
         event: { type: String, required: true },
+        place: { type: String, default: "" },
+        phone: { type: String, default: "" },
         date: { type: Date, required: true },
-        guests: { type: Number, default: 1 },
+        guests: { type: Number, default: 0 },
         items: [
           {
             name: String,
@@ -57,7 +50,7 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
-    // 🔔 Optional Notification Preferences
+    //  Optional Notification Preferences
     notifications: {
       email: { type: Boolean, default: true },
       whatsapp: { type: Boolean, default: true },
