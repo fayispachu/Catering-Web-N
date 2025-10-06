@@ -6,7 +6,7 @@ import { useInView } from "react-intersection-observer";
 import tableware from "../assets/tableware.jpg";
 import staff from "../assets/staff.webp";
 import food from "../assets/food.webp";
-
+// a
 function About() {
   const [ref, inView] = useInView({
     triggerOnce: true,
